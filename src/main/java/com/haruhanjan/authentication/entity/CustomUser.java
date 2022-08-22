@@ -1,5 +1,6 @@
 package com.haruhanjan.authentication.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,16 +28,16 @@ public class CustomUser {
     private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
 
     @Builder
-    public CustomUser(String email, String password, String name, String nickname, Integer age, BaseTimeEntity baseTimeEntity) {
+    public CustomUser(String email, String password, String name, String nickname, Integer age) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
         this.age = age;
-        this.baseTimeEntity = baseTimeEntity;
+        this.baseTimeEntity = new BaseTimeEntity();
     }
 
     public void delete() {
-        this.baseTimeEntity.delete();
+        baseTimeEntity.delete();
     }
 }

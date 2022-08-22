@@ -1,11 +1,13 @@
 package com.haruhanjan.authentication.dto;
 
 import com.haruhanjan.authentication.entity.CustomUser;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
 @Setter
+@Getter
 public class UserResponseDto {
     private String email;
     private String name;

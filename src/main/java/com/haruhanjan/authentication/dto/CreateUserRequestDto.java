@@ -4,10 +4,10 @@ import com.haruhanjan.authentication.entity.CustomUser;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 public class CreateUserRequestDto {
     private String email;
+    @Getter
     private String password;
     private String name;
     private String nickname;

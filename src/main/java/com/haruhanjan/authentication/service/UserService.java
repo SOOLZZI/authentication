@@ -7,6 +7,7 @@ import com.haruhanjan.authentication.repository.CustomUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -31,6 +32,7 @@ public class UserService {
         return new UserResponseDto(saved);
     }
 
+    @Transactional
     public void delete(Long id) {
         CustomUser target =customUserRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         target.delete();
