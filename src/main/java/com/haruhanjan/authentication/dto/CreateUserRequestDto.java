@@ -1,6 +1,5 @@
 package com.haruhanjan.authentication.dto;
 
-import com.haruhanjan.authentication.entity.CustomUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,13 +12,13 @@ public class CreateUserRequestDto {
     private String nickname;
     private Integer age;
 
-    public CustomUser toEntity(String encodedPassword) {
-        return CustomUser.builder()
-                .email(this.email)
-                .password(encodedPassword)
-                .age(this.age)
-                .name(this.name)
-                .nickname(this.nickname)
-                .build();
-    }
+//    public User toEntity(String encodedPassword) {
+//        return User.builder()
+//                .email(this.email)
+//                .password(encodedPassword)
+//                .age(this.age)
+//                .name(this.name)
+//                .nickname(this.nickname)
+//                .build();
+//    }
 }
