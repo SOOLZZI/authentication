@@ -19,12 +19,12 @@ spring:
         registration:
           github:
             clientId: 2600621ee9acd79e71ee
-            clientSecret:  #???? ??
+            clientSecret: 1b3300d948573cd84796e7b79b34300862371959 #???? ??
           google:
             client-id: 88761955634-a6l1l6mpl3vnoq84fflskivo07q15i2j.apps.googleusercontent.com
-            client-secret:
+            client-secret: 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
           kakao:
-            client-id: 
+            client-id: de2f85cafb5f500733fdca26efe94279
             client-name: Kakao
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
@@ -32,7 +32,7 @@ spring:
             scope: profile_nickname, profile_image, account_email
           naver:
             client-id: EqH2aINMof0s9WzYpbo1
-            client-secret:
+            client-secret: QFnBLJvEAI
             client-name: Naver
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
