@@ -2,9 +2,12 @@ package com.haruhanjan.authentication.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -17,15 +20,11 @@ public class User implements OAuth2User {
     private Long id;
 
     private String accountId;
-    // naver -> N123lsdkfji341234
+    // default -> phjppo0918
+    // social -> "id" or "at_hash"
 
     private String email; // 회원아이디? ex@ex.com?
-    // 1. 이메일 + 소셜
-    // 2. 이메일
 
-    // 소셜 로그인 중복 가입을 허용할 것인가? ㅇㅇ?
-    //소셜 로그인시에는 이게 필요가 있음!! 기존/신규
-    // 상속->고민X, 굳이 ,Kakao/navOauth2User extends CustomUser   중복확인
     private String password;
     private String name;
     private String nickname;
@@ -35,6 +34,8 @@ public class User implements OAuth2User {
 
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider = AuthProvider.NONE;
+    @Enumerated(EnumType.STRING)
+    private Authority authority = Authority.ROLE_USER;
 
     @Embedded
     private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
