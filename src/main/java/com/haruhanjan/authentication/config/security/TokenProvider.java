@@ -41,7 +41,7 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto createToken(Authentication authentication) {
+    public TokenDTO createToken(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -62,8 +62,8 @@ public class TokenProvider implements InitializingBean {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        return TokenDto.builder()
-                .grantType("bearer")
+        return TokenDTO.builder()
+                //.grantType("bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

@@ -1,8 +1,10 @@
 package com.haruhanjan.authentication.service.oauth2.userMapper;
 
 import com.haruhanjan.authentication.entity.User;
-import java.util.Map;
+import org.springframework.stereotype.Component;
 
+import java.util.Map;
+@Component
 public class NaverUserMapper implements UserMapper {
 
     @Override
