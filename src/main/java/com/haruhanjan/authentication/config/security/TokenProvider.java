@@ -1,11 +1,11 @@
 package com.haruhanjan.authentication.config.security;
 
+import com.haruhanjan.authentication.dto.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,14 +25,12 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
     private static final String AUTHORITIES_KEY = "auth";
 
-    @Value("${jwt.token-validity-in-milli-seconds}")
-    private long tokenValidityInSeconds;
-    @Value("${jwt.refresh-token-validity-in-milli-seconds}")
-    private long refreshTokenValidityInSeconds; //1000*60*60*24*14
-    @Value("${jwt.secret}")
-    private String secret;
+    private long tokenValidityInSeconds = 60 * 60 * 24;
+    private long refreshTokenValidityInSeconds = 60 * 60 * 24 * 14;
 
-    // 서버 공통으로 사용할 비밀키
+    // 서버 공통으로 사용할 비밀키, 64바이트 이상
+    private String secret = "sdfshruwetijilfdzjglij23o4845ojfdgojsozdjfoijoijo46098audwtisdf455745rysrthhnaerfcjoi2j34ocifjoith";
+
     protected Key key;
 
     @Override
@@ -41,29 +39,29 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDTO createToken(Authentication authentication) {
+    public TokenDto createToken(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-        log.info("TokenProvider  authentication.getPrincipal() : "+authentication.getPrincipal());
+        log.info("TokenProvider  authentication.getPrincipal() : " + authentication.getPrincipal());
         long now = new Date().getTime();
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName()) // User Id
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(new Date(now + tokenValidityInSeconds*1000))
+                .setExpiration(new Date(now + tokenValidityInSeconds * 1000))
                 .compact();
         String refreshToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .setExpiration(new Date(now + refreshTokenValidityInSeconds*1000))
+                .setExpiration(new Date(now + refreshTokenValidityInSeconds * 1000))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        return TokenDTO.builder()
-                //.grantType("bearer")
+        return TokenDto.builder()
+                .grantType("bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -96,9 +94,9 @@ public class TokenProvider implements InitializingBean {
 
         // 디비를 거치지 않고 토큰에서 값을 꺼내 바로 시큐리티 유저 객체를 만들어 Authentication을 만들어 반환하기에 유저네임, 권한 외 정보는 알 수 없다.
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-        log.info("TokenProvider  claims.getSubject() : "+ claims.getSubject());
-        log.info("TokenProvider  claims.getId() : "+ claims.getId());
-        log.info("TokenProvider  claims.getExpiration() : "+ claims.getExpiration());
+        log.info("TokenProvider  claims.getSubject() : " + claims.getSubject());
+        log.info("TokenProvider  claims.getId() : " + claims.getId());
+        log.info("TokenProvider  claims.getExpiration() : " + claims.getExpiration());
 
         return new UsernamePasswordAuthenticationToken(principal, accessToken, authorities);
     }
