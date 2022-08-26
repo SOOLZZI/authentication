@@ -1,6 +1,6 @@
 package com.haruhanjan.authentication.controller;
 
-import com.haruhanjan.authentication.service.jwt.AuthService;
+import com.haruhanjan.authentication.config.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("auth")
 public class AuthTokenController {
-    private final AuthService authService;
+    private final TokenProvider tokenProvider;
 
     @GetMapping
     public String auth() {
