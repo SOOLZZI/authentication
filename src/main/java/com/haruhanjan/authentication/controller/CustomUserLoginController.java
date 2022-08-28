@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class CustomUserLoginController {
     private final UserService userService;

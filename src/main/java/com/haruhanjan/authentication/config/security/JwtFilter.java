@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -33,21 +34,21 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String accessToken = Arrays.stream(request.getCookies())
-                    .filter(c -> c.getName().equals("access_token"))
+                    .filter(c -> c.getName().equals("jwt_access_token"))
                     .findFirst()
                     .map(Cookie::getValue)
-                    .orElse(null);
+                    .orElseThrow(AuthenticationException::new);
 
-            if (accessToken != null && tokenProvider.validateToken(accessToken)) {
-                String username = tokenProvider.getSubject(accessToken);
+            tokenProvider.validateToken(accessToken);
+            String username = tokenProvider.getSubject(accessToken);
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username); // AccountId
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
         } catch (Exception e) {
             log.info("Cannot set user authentication : {}", e);
         }

@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +21,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated() // 그 외 요청은 권한 필요
                 .and()
                 /*
@@ -52,11 +51,11 @@ public class SecurityConfig {
                 .cors().disable()
                 .csrf().disable()
                 .httpBasic().disable()
-                .headers().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // 매 요청 전 JwtFilter 적용
+                .headers().disable();
+//                .exceptionHandling()
+//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .and()
+//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // 매 요청 전 JwtFilter 적용
         /*
         쿠키 설정은 컨트롤러에서 했고 필터는 쿠키에
          */

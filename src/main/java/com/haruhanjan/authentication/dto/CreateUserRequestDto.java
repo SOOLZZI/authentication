@@ -15,11 +15,11 @@ public class CreateUserRequestDto {
     private String nickname;
     private Integer age;
 
-    public User toEntity(String encodedPassword) {
+    public User toEntity() {
         return User.builder()
                 .accountId(this.accountId)
                 .email(this.email)
-                .password(encodedPassword)
+                .password(this.password)
                 .age(this.age)
                 .name(this.name)
                 .nickname(this.nickname)

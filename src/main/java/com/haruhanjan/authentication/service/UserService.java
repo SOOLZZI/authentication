@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,11 +38,12 @@ public class UserService {
     }
 
     public UserResponseDto save(CreateUserRequestDto dto) {
-        User target = userRepository.findByAccountId(dto.getAccountId()).orElse(null);
-        if (target!=null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"이미 존재하는 회원입니다!");
+        userRepository.findByAccountId(dto.getAccountId())
+                    .ifPresent(u -> {throw new EntityExistsException();});
 
-        User entity = dto.toEntity(passwordEncoder.encode(dto.getPassword()));
-        User saved = userRepository.save(entity);
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        User saved = userRepository.save(dto.toEntity());
         return new UserResponseDto(saved);
     }
 
