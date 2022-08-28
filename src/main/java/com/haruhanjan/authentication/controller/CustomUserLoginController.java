@@ -2,7 +2,7 @@ package com.haruhanjan.authentication.controller;
 
 import com.haruhanjan.authentication.dto.CreateUserRequestDto;
 import com.haruhanjan.authentication.dto.LoginRequestDTO;
-import com.haruhanjan.authentication.dto.TokenDto;
+import com.haruhanjan.authentication.dto.JWTTokenDto;
 import com.haruhanjan.authentication.dto.UserResponseDto;
 import com.haruhanjan.authentication.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,9 @@ public class CustomUserLoginController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginRequestDTO dto,
-                                                 HttpServletResponse response) {
-        TokenDto tokenDto = userService.login(dto);
+    public ResponseEntity<JWTTokenDto> login(@RequestBody LoginRequestDTO dto,
+                                             HttpServletResponse response) {
+        JWTTokenDto tokenDto = userService.login(dto);
 
         // 발급받은 토큰 쿠키 설정
         Cookie refreshTokenCookie = new Cookie("jwt_refresh_token", tokenDto.getRefreshToken());

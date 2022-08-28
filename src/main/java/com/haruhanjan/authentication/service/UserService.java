@@ -3,7 +3,7 @@ package com.haruhanjan.authentication.service;
 import com.haruhanjan.authentication.config.security.TokenProvider;
 import com.haruhanjan.authentication.dto.CreateUserRequestDto;
 import com.haruhanjan.authentication.dto.LoginRequestDTO;
-import com.haruhanjan.authentication.dto.TokenDto;
+import com.haruhanjan.authentication.dto.JWTTokenDto;
 import com.haruhanjan.authentication.dto.UserResponseDto;
 import com.haruhanjan.authentication.entity.User;
 import com.haruhanjan.authentication.repository.UserRepository;
@@ -53,7 +53,7 @@ public class UserService {
         target.delete();
     }
 
-    public TokenDto login(LoginRequestDTO dto) {
+    public JWTTokenDto login(LoginRequestDTO dto) {
         User target = userRepository.findByAccountId(dto.getAccountId()).orElseThrow(EntityNotFoundException::new);
         if (!passwordEncoder.matches(dto.getPassword(), target.getPassword()))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"비밀번호가 맞지 않습니다!");
@@ -63,7 +63,7 @@ public class UserService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 Jwt 토큰 생성
-        TokenDto tokenDto = tokenProvider.createToken(authentication);
+        JWTTokenDto tokenDto = tokenProvider.createToken(authentication);
         // refresh token -> redis 저장
 
         return tokenDto;
