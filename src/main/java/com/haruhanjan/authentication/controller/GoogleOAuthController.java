@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +27,20 @@ public class GoogleOAuthController {
     }
 
     @GetMapping("callback")
-    public String authGoogleCallback() {
+    public void authGoogleCallback(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
+        log.info("code: {}", code);
+        // google access token 발급 요청 post
 
-        log.info("나는 콜백이야~");
-        return null;
+        response.sendRedirect(googleLoginService.requestTokenURL(code));
     }
+
+    @GetMapping("user")
+    public String authGoogleCallback(HttpServletResponse response) throws IOException {
+        log.info("{}", response.toString());
+
+        return "ok";
+    }
+    
     // 정보 받는 api
     // 호출 이후 json 처리
     // google access token은 정보 받고 팽

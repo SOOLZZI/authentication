@@ -11,4 +11,7 @@ public class GoogleLoginService {
     public String getRedirectURL() {
         return googleOauth2Config.getRedirectURL();
     }
+    public String requestTokenURL(String code) {
+        return googleOauth2Config.requestTokenURL(code);
+    }
 }
