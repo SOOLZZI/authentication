@@ -1,4 +1,4 @@
-package com.haruhanjan.authentication.service.oauth2;
+package com.haruhanjan.authentication.service.oauth2.google;
 
 import com.haruhanjan.authentication.config.oauth2.GoogleOauth2Config;
 import com.haruhanjan.authentication.dto.OAuthResponseDTO;

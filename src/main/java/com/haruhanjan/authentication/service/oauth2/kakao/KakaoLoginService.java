@@ -1,6 +1,5 @@
-package com.haruhanjan.authentication.service.oauth2;
+package com.haruhanjan.authentication.service.oauth2.kakao;
 
-import com.haruhanjan.authentication.service.oauth2.userMapper.KakaoUserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

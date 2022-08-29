@@ -37,13 +37,14 @@ public class User {
     private BaseTimeEntity baseTimeEntity = new BaseTimeEntity();
 
     @Builder
-    public User(String accountId,String email, String password, String name, String nickname, Integer age) {
+    public User(String accountId,String email, String password, String name, String nickname, Integer age, AuthProvider authProvider) {
         this.accountId=accountId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.nickname = nickname;
         this.age = age;
+        this.authProvider = authProvider;
     }
     public void update() {
         baseTimeEntity.update();

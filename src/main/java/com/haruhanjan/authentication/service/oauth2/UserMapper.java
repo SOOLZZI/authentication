@@ -1,5 +1,6 @@
-package com.haruhanjan.authentication.service.oauth2.userMapper;
+package com.haruhanjan.authentication.service.oauth2;
 
+import com.haruhanjan.authentication.dto.OAuthUserDTO;
 import com.haruhanjan.authentication.entity.User;
 
 import java.util.Map;
@@ -15,5 +16,5 @@ public interface UserMapper {
      * @param attributes  attribute 데이터들을 K(String), V(Object) 형식으로 받음
      * @return 변환된 User 객체를 반환
      */
-    User map(Map<String, Object> attributes);
+    OAuthUserDTO map(Map<String, Object> attributes);
 }
