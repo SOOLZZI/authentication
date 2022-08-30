@@ -1,6 +1,6 @@
 package com.haruhanjan.authentication.service.oauth2.naver;
 
-import com.haruhanjan.authentication.dto.OAuthUserDTO;
+import com.haruhanjan.authentication.dto.oauth2.OAuthUserDTO;
 import com.haruhanjan.authentication.entity.AuthProvider;
 import com.haruhanjan.authentication.entity.Authority;
 import com.haruhanjan.authentication.service.oauth2.UserMapper;

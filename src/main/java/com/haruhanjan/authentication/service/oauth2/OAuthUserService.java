@@ -1,6 +1,6 @@
 package com.haruhanjan.authentication.service.oauth2;
 
-import com.haruhanjan.authentication.dto.OAuthUserDTO;
+import com.haruhanjan.authentication.dto.oauth2.OAuthUserDTO;
 import com.haruhanjan.authentication.entity.User;
 import com.haruhanjan.authentication.service.UserService;
 import lombok.RequiredArgsConstructor;
