@@ -16,5 +16,9 @@ public interface UserMapper {
      * @param attributes  attribute 데이터들을 K(String), V(Object) 형식으로 받음
      * @return 변환된 User 객체를 반환
      */
-    OAuthUserDTO map(Map<String, Object> attributes);
+    OAuthUserDTO mapToDTO(Map<String, Object> attributes);
+
+    Map<String, Object> mapToTokenAttribute(Map<String, Object> attributes);
+
+
 }

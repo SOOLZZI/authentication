@@ -20,7 +20,7 @@ import java.util.Map;
 public class OAuthUserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserService userService;
-    private final OAuth2UserService oAuth2UserService;
+    private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
 
     private final UserMapperFactory oAuth2ServiceFactory;
 
@@ -30,20 +30,15 @@ public class OAuthUserService implements OAuth2UserService<OAuth2UserRequest, OA
         //현재 로그인한 서비스
         String socialServiceName = userRequest.getClientRegistration().getRegistrationId();
 
-        //로그인 서비스의 키 이름 : 구글: sub, 네이버 : response, 카카오 : id
-        String attributeKeyName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-
-        UserMapper mapper = oAuth2ServiceFactory.userMapper(socialServiceName);
-
         Map<String, Object> userAttributes = oAuth2UserService.loadUser(userRequest).getAttributes();
-        OAuthUserDTO authUserDTO = mapper.map(userAttributes);
+        UserMapper mapper = oAuth2ServiceFactory.userMapper(socialServiceName);
+        OAuthUserDTO authUserDTO = mapper.mapToDTO(userAttributes);
         User user = userService.saveIfNone(authUserDTO);
-        //jwt 토큰 생성
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getAuthority().name())),
-                userAttributes,
-                attributeKeyName
+                mapper.mapToTokenAttribute(userAttributes),
+                "accountId"
         );
     }
 }

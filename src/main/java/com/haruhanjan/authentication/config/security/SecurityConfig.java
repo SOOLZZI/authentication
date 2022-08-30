@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final OAuthUserService oAuthUserService;
+    private final OAuth2SuccessHandler successHandler;
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -23,13 +24,16 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/api/auth")
+                    .authorizationEndpoint()
+                    .baseUri("/api/auth")
+                    .and()
+                    .successHandler(successHandler)
+                    .userInfoEndpoint()
+                    .userService(oAuthUserService)
+                    .and()
                 .and()
-                .defaultSuccessUrl("/")
-                .userInfoEndpoint()
-                .userService(oAuthUserService)
-                .and().and().build();
+                .build();
+
 
     }
 

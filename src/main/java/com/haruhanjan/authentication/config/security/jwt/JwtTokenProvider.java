@@ -1,7 +1,7 @@
 package com.haruhanjan.authentication.config.security.jwt;
 
 import com.haruhanjan.authentication.dto.JWTTokenDto;
-import com.haruhanjan.authentication.entity.User;
+import com.haruhanjan.authentication.dto.UserAuthResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     private final Long ACCESS_TOKEN_VALIDATION_SECOND = 60L * 60 * 24 * 1000;
     private final Long REFRESH_TOKEN_VALIDATION_SECOND = 60L * 60 * 24 * 14 * 1000;
 
-    public JWTTokenDto createJWTTokens(User user) {
+    public JWTTokenDto createJWTTokens(UserAuthResponse user) {
         Claims claims = getClaims(user);
 
         String accessToken = getToken(user, claims, ACCESS_TOKEN_VALIDATION_SECOND);
@@ -31,21 +31,21 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    private Claims getClaims(User user) {
+    private Claims getClaims(UserAuthResponse user) {
         Claims claims = Jwts.claims();
         claims.put("accountId", user.getAccountId());
-        claims.put("role", user.getAuthority().name());
+        claims.put("role", user.getRole());
 
         return claims;
     }
 
-    private String getToken(User user, Claims claims, Long validationSecond) {
+    private String getToken(UserAuthResponse user, Claims claims, Long validationSecond) {
         long now = new Date().getTime();
 
         return Jwts.builder()
                 .setSubject(user.getAccountId())
                 .setClaims(claims)
-                .signWith(hashKey, SignatureAlgorithm.ES512)
+                .signWith(hashKey, SignatureAlgorithm.HS512)
                 .setExpiration(new Date(now + validationSecond))
                 .compact();
     }
