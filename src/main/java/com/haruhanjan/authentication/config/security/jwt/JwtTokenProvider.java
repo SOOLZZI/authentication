@@ -31,6 +31,11 @@ public class JwtTokenProvider {
                 .build();
     }
 
+    public String reissueAccessToken(UserAuthResponse user){
+        Claims claims = getClaims(user);
+        return getToken(user, claims, ACCESS_TOKEN_VALIDATION_SECOND);
+    }
+
     private Claims getClaims(UserAuthResponse user) {
         Claims claims = Jwts.claims();
         claims.put("accountId", user.getAccountId());

@@ -1,4 +1,4 @@
-package com.haruhanjan.authentication.dto;
+package com.haruhanjan.authentication.dto.oauth2;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

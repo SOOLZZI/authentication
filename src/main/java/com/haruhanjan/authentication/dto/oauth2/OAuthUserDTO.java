@@ -1,4 +1,4 @@
-package com.haruhanjan.authentication.dto;
+package com.haruhanjan.authentication.dto.oauth2;
 
 import com.haruhanjan.authentication.entity.AuthProvider;
 import com.haruhanjan.authentication.entity.User;
