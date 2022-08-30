@@ -1,4 +1,4 @@
-package com.haruhanjan.authentication.config;
+package com.haruhanjan.authentication.config.security.jwt;
 
 
 import io.jsonwebtoken.io.Decoders;
