@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .oauth2Login()
                     .authorizationEndpoint()
-                    .baseUri("/api/auth")
+                    .baseUri("/api/oauth2")
                     .and()
                     .successHandler(successHandler)
                     .userInfoEndpoint()
