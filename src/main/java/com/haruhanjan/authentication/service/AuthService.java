@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.message.AuthException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     // 1. CustomUser 로그인
-    public JWTTokenDto login(LoginRequestDTO dto) throws AuthException {
+    public JWTTokenDto getJwtToken(LoginRequestDTO dto) throws AuthException {
         UserAuthResponse user = userService.verifyLogin(dto);
         JWTTokenDto tokenDto = jwtTokenProvider.createJWTTokens(user);
         // refresh token -> redis 저장 TODO
@@ -40,6 +42,22 @@ public class AuthService {
                 //.orElseThrow(IllegalArgumentException::new);
         UserAuthResponse user = jwtTokenValidator.getAuthentication(refreshToken);
         return jwtTokenProvider.reissueAccessToken(user);
+    }
+
+    public void addJwtTokensInCookie(HttpServletResponse response, JWTTokenDto tokenDto) {
+        // 발급받은 토큰 쿠키 설정 addJwtTokenInCookie
+        Cookie accessTokenCookie = setCookie("access_token", tokenDto.getAccessToken());
+        response.addCookie(accessTokenCookie);
+
+        Cookie refreshTokenCookie = setCookie("refresh_token", tokenDto.getRefreshToken());
+        response.addCookie(refreshTokenCookie);
+    }
+
+    private Cookie setCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        return cookie;
     }
 
     // 4. 토큰 삭제

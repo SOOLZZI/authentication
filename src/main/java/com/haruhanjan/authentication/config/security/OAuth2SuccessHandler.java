@@ -5,6 +5,7 @@ import com.haruhanjan.authentication.config.security.jwt.JwtTokenProvider;
 import com.haruhanjan.authentication.dto.JWTTokenDto;
 import com.haruhanjan.authentication.dto.UserAuthResponse;
 import com.haruhanjan.authentication.entity.Authority;
+import com.haruhanjan.authentication.service.AuthService;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final AuthService authService;
 
 
     @Override
@@ -41,15 +43,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         UserAuthResponse user = new UserAuthResponse(loginUserAccountId, loginUserRole);
         JWTTokenDto jwtTokenDto = jwtTokenProvider.createJWTTokens(user);
 
-        Cookie accessCookie = new Cookie("access_token", jwtTokenDto.getAccessToken());
-        accessCookie.setPath("/");
-        accessCookie.setHttpOnly(true);
-        response.addCookie(accessCookie);
-
-        Cookie refreshCookie = new Cookie("refresh_token", jwtTokenDto.getRefreshToken());
-        refreshCookie.setPath("/");
-        refreshCookie.setHttpOnly(true);
-        response.addCookie(refreshCookie);
+        authService.addJwtTokensInCookie(response, jwtTokenDto);
 
         response.sendRedirect("/");
     }
