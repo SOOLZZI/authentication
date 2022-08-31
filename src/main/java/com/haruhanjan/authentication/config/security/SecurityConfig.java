@@ -32,6 +32,8 @@ public class SecurityConfig {
                     .userService(oAuthUserService)
                     .and()
                 .and()
+                .csrf().disable()
+                .cors().disable()
                 .build();
 
 

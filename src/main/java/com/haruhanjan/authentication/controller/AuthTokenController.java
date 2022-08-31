@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class AuthTokenController {
     }
 
     @PostMapping("logout")
-    public String logout(HttpServletResponse response){
+    public void logout(HttpServletResponse response) throws IOException {
         authService.logout(response);
-        return "redirect:/";
+        response.sendRedirect("/");
     }
 
     @GetMapping("refresh")
