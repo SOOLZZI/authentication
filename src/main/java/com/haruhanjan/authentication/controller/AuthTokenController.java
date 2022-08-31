@@ -4,10 +4,7 @@ import com.haruhanjan.authentication.dto.UserAuthResponse;
 import com.haruhanjan.authentication.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +19,12 @@ public class AuthTokenController {
     public ResponseEntity<UserAuthResponse> auth(@CookieValue String access_token) {
         UserAuthResponse loginUser = authService.validateToken(access_token);
         return ResponseEntity.ok(loginUser);
+    }
+
+    @PostMapping("logout")
+    public String logout(HttpServletResponse response){
+        authService.logout(response);
+        return "redirect:/";
     }
 
     @GetMapping("refresh")

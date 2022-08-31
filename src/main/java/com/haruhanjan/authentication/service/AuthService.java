@@ -61,4 +61,14 @@ public class AuthService {
     }
 
     // 4. 토큰 삭제
+    public void logout(HttpServletResponse response) {
+        expireCookie(response,"access_cookie");
+        expireCookie(response,"refresh_cookie");
+    }
+
+    private void expireCookie(HttpServletResponse response, String key) {
+        Cookie cookie = new Cookie(key, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
 }
