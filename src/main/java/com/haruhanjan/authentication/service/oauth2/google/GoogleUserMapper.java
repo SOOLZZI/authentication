@@ -3,6 +3,7 @@ package com.haruhanjan.authentication.service.oauth2.google;
 import com.haruhanjan.authentication.dto.oauth2.OAuthUserDTO;
 import com.haruhanjan.authentication.entity.AuthProvider;
 import com.haruhanjan.authentication.entity.Authority;
+import com.haruhanjan.authentication.entity.User;
 import com.haruhanjan.authentication.service.oauth2.UserMapper;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,11 @@ public class GoogleUserMapper implements UserMapper {
     }
 
     @Override
-    public Map<String, Object> mapToTokenAttribute(Map<String, Object> attributes) {
+    public Map<String, Object> mapToTokenAttribute(User user) {
         Map<String, Object> result = new HashMap<>();
-        result.put("accountId", attributes.get("sub"));
+        result.put("id", user.getId());
+        result.put("accountId", user.getAccountId());
+        result.put("nickname", user.getNickname());
         result.put("role", Authority.ROLE_USER);
         return result;
     }

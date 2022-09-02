@@ -37,7 +37,7 @@ public class OAuthUserService implements OAuth2UserService<OAuth2UserRequest, OA
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getAuthority().name())),
-                mapper.mapToTokenAttribute(userAttributes),
+                mapper.mapToTokenAttribute(user),
                 "accountId"
         );
     }

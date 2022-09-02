@@ -40,7 +40,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String loginUserRole = ((Authority)oAuth2User.getAttribute("role")).name();
 
-        UserAuthResponse user = new UserAuthResponse(loginUserAccountId, loginUserRole);
+        Long loginUserId =  oAuth2User.getAttribute("id");
+
+        String loginUserNickname = oAuth2User.getAttribute("nickname");
+
+        UserAuthResponse user = new UserAuthResponse(loginUserId, loginUserAccountId,loginUserNickname ,loginUserRole);
         JWTTokenDto jwtTokenDto = jwtTokenProvider.createJWTTokens(user);
 
         authService.addJwtTokensInCookie(response, jwtTokenDto);

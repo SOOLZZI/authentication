@@ -18,7 +18,7 @@ public interface UserMapper {
      */
     OAuthUserDTO mapToDTO(Map<String, Object> attributes);
 
-    Map<String, Object> mapToTokenAttribute(Map<String, Object> attributes);
+    Map<String, Object> mapToTokenAttribute(User user);
 
 
 }
