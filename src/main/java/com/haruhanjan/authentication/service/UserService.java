@@ -59,6 +59,9 @@ public class UserService {
 
     public User saveIfNone(OAuthUserDTO dto){
         return userRepository.findByAccountId(dto.getAccountId())
-                .orElseGet(() -> userRepository.save(dto.toEntity()));
+                .orElseGet(() -> {
+                    dto.setNickname(dto.getAccountId());
+                    return userRepository.save(dto.toEntity());
+                });
     }
 }
