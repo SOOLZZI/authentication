@@ -15,7 +15,7 @@ public class UserAuthResponse {
     public UserAuthResponse(User user) {
         this.id = user.getId();
         this.accountId = user.getAccountId();
-        this.nickname = user.getAccountId();
+        this.nickname = user.getNickname();
         this.role = user.getAuthority().name();
     }
 
