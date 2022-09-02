@@ -7,22 +7,28 @@ import lombok.Getter;
 
 @Getter
 public class UserAuthResponse {
-
+    public Long id;
     public String accountId;
+    public String nickname;
     public String role;
 
     public UserAuthResponse(User user) {
+        this.id = user.getId();
         this.accountId = user.getAccountId();
+        this.nickname = user.getAccountId();
         this.role = user.getAuthority().name();
     }
 
     public UserAuthResponse(Claims claims) {
-        this.accountId = claims.get("accountId").toString();
+        this.id = Long.parseLong(claims.get("id").toString());
+        this.nickname = claims.get("nickname").toString();
         this.role = claims.get("role").toString();
     }
 
-    public UserAuthResponse(String accountId, String role) {
+    public UserAuthResponse(Long id, String accountId, String nickname, String role) {
+        this.id = id;
         this.accountId = accountId;
+        this.nickname = nickname;
         this.role = role;
     }
 }
