@@ -19,12 +19,13 @@ spring:
         registration:
           github:
             clientId: 2600621ee9acd79e71ee
-            clientSecret: 1b3300d948573cd84796e7b79b34300862371959 #???? ??
+            clientSecret: c7a03f3dbb033ed29a0b0937f321915f8100a18a #???? ??
           google:
             client-id: 88761955634-a6l1l6mpl3vnoq84fflskivo07q15i2j.apps.googleusercontent.com
-            client-secret: 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
+            client-secret: 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
+            scope: email,profile
           kakao:
-            client-id: de2f85cafb5f500733fdca26efe94279
+            client-id: b35711c9ed070fb01c2ef74a2ab20a29
             client-name: Kakao
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
@@ -32,7 +33,7 @@ spring:
             scope: profile_nickname, profile_image, account_email
           naver:
             client-id: EqH2aINMof0s9WzYpbo1
-            client-secret: QFnBLJvEAI
+            client-secret: 9u5dkLmxD7
             client-name: Naver
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
@@ -49,3 +50,8 @@ spring:
             token_uri: https://nid.naver.com/oauth2.0/token
             user-info-uri: https://openapi.naver.com/v1/nid/me
             user_name_attribute: response
+oauth:
+  backend-base-url: http://127.0.0.1:8080
+
+jwt:
+  secret-key: sdfshruwetijilfdzjglij23o4845ojfdgojsozdjfoijoijo46098audwtisdf455745rysrthhnaerfcjoi2j34ocifjoith
