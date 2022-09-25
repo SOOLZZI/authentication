@@ -21,6 +21,7 @@ public class UserAuthResponse {
 
     public UserAuthResponse(Claims claims) {
         this.id = Long.parseLong(claims.get("id").toString());
+        this.accountId = claims.get("accountId").toString();
         this.nickname = claims.get("nickname").toString();
         this.role = claims.get("role").toString();
     }
