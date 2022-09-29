@@ -1,10 +1,14 @@
 package com.haruhanjan.authentication.repository;
 
-import com.haruhanjan.authentication.dto.UserAuthResponse;
+import com.haruhanjan.authentication.entity.RedisRefreshToken;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface RefreshTokenRepository {
+@Repository
+public interface RefreshTokenRepository extends CrudRepository<RedisRefreshToken, Long> {
 
-   Optional<UserAuthResponse> isExist(String token);
+   Optional<RedisRefreshToken> findByRefreshToken(String refreshToken);
+   void deleteByRefreshToken(String refreshToken);
 }
