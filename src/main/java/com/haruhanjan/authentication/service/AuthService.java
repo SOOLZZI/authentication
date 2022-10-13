@@ -26,7 +26,6 @@ public class AuthService {
     public JWTTokenDto getJwtToken(LoginRequestDTO dto) throws AuthException {
         UserAuthResponse user = userService.verifyLogin(dto);
         JWTTokenDto tokenDto = jwtTokenProvider.createJWTTokens(user);
-        // refresh token -> redis 저장 TODO
         return tokenDto;
     }
 
