@@ -27,8 +27,7 @@ public class AuthService {
     public JWTTokenDto getJwtToken(LoginRequestDTO dto) throws AuthException {
         UserAuthResponse user = userService.verifyLogin(dto);
         JWTTokenDto tokenDto = jwtTokenProvider.createJWTTokens(user);
-
-
+        
         refreshTokenRepository.save(
                 new RedisRefreshToken(user.getId(), tokenDto.getRefreshToken())
         );
