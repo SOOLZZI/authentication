@@ -17,8 +17,6 @@ public class User {
     private Long id;
 
     private String accountId;
-    // default -> phjppo0918
-    // social -> "id" or "at_hash"
     private String email; // ex@ex.com?
     private String password;
     private String name;
