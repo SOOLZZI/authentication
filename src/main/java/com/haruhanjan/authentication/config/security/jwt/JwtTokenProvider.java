@@ -39,6 +39,7 @@ public class JwtTokenProvider {
     private Claims getClaims(UserAuthResponse user) {
         Claims claims = Jwts.claims();
         claims.put("id", user.getId());
+        claims.put("accountId", user.getAccountId());
         claims.put("nickname", user.getNickname());
         claims.put("role", user.getRole());
 

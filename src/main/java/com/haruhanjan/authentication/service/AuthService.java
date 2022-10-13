@@ -5,6 +5,7 @@ import com.haruhanjan.authentication.config.security.jwt.JwtTokenValidator;
 import com.haruhanjan.authentication.dto.JWTTokenDto;
 import com.haruhanjan.authentication.dto.LoginRequestDTO;
 import com.haruhanjan.authentication.dto.UserAuthResponse;
+import com.haruhanjan.authentication.entity.RedisRefreshToken;
 import com.haruhanjan.authentication.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,11 @@ public class AuthService {
     public JWTTokenDto getJwtToken(LoginRequestDTO dto) throws AuthException {
         UserAuthResponse user = userService.verifyLogin(dto);
         JWTTokenDto tokenDto = jwtTokenProvider.createJWTTokens(user);
+        
+        refreshTokenRepository.save(
+                new RedisRefreshToken(user.getId(), tokenDto.getRefreshToken())
+        );
+
         return tokenDto;
     }
 
@@ -37,8 +43,8 @@ public class AuthService {
     // 3. 리프레시
     public String reissue(String refreshToken) {
 
-        //refreshTokenRepository.isExist(refreshToken)
-                //.orElseThrow(IllegalArgumentException::new);
+        refreshTokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(IllegalArgumentException::new);
         UserAuthResponse user = jwtTokenValidator.getAuthentication(refreshToken);
         return jwtTokenProvider.reissueAccessToken(user);
     }

@@ -23,6 +23,13 @@ group = 'com.haru-hanjan'
 version = 'authentication-0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+
+	asciidoctorExt
+}
 
 
 repositories {
@@ -35,6 +42,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	// JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -42,7 +50,8 @@ dependencies {
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes:1.1.10.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-config:1.1.10.RELEASE'
-	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.3'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.3'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -51,13 +60,15 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 
 	testImplementation 'org.springframework.security:spring-security-test'
-
-	// 아스키독
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	//asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
+	testRuntimeOnly 'mysql:mysql-connector-java:8.0.30'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+}
 ext {
 	snippetsDir = file('build/generated-snippets')
 }
@@ -77,11 +88,4 @@ asciidoctor {
 tasks.named('test') {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
-}
-
-configurations {
-	asciidoctorExtensions
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
 }
