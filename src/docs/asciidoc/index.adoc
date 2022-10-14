@@ -8,3 +8,14 @@ Always0ne;
 :sectlinks:
 :operation-curl-request-title: Example request
 :operation-http-response-title: Example response
+
+= Auth =
+== 주어진 토큰을 통한 인증 ==
+
+operation::check-access-token[snippets='http-request,http-response,response-fields']
+
+== 로그아웃 ==
+
+operation::logout[snippets='http-request,http-response']
+
+
